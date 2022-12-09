@@ -25,9 +25,14 @@ public class BattleManager : MonoBehaviour
 
     GameObject uiTab;
 
+    GameObject monsterObj;
     public void BattleStart(Monster1 monster)
     {
         monsterData = monster;
+
+        monsterObj = ObjectManager.GetInstance().CreateMonster();
+        monsterObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
+        monsterObj.transform.localPosition = new Vector3(0, 0.6f, 0);
 
         UIManager.GetInstance().OpenUI("UITab");
 
@@ -35,7 +40,7 @@ public class BattleManager : MonoBehaviour
     }
     IEnumerator BattleProgress()
     {
-        while(GameManager.GetInstance().curHp > 0)
+        while (GameManager.GetInstance().curHp > 0)
         {
             yield return new WaitForSeconds(monsterData.delay);
 
@@ -43,9 +48,9 @@ public class BattleManager : MonoBehaviour
             GameManager.GetInstance().SetCurrentHP(-damage);
 
             GameObject ui = UIManager.GetInstance().GetUI("UIProfile");
-            if(ui != null)
+            if (ui != null)
                 ui.GetComponent<UIProfile>().RefreshState();
-            
+
 
             Debug.Log($"용사에게 공격 당하였습니다. - 데미지 : {damage}   남은체력 : {GameManager.GetInstance().curHp}");
         }
@@ -59,7 +64,8 @@ public class BattleManager : MonoBehaviour
         Debug.Log("게임에서 승리하였습니다");
         StopCoroutine("BattleProgress");
         UIManager.GetInstance().CloseUI("UITab");
-
+        monsterObj.gameObject.SetActive(false);
+        DieMonster();
 
         GameManager.GetInstance().AddGold(monsterData.gold);
 
@@ -90,10 +96,17 @@ public class BattleManager : MonoBehaviour
 
 
 
-        monsterData.hp -- ;
+        monsterData.hp--;
 
         if (monsterData.hp <= 0)
             Victory();
+    }
+
+    public void DieMonster()
+    {
+        ParticleSystem particle = ObjectManager.GetInstance().dieEffect();
+        particle.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+        particle.transform.localPosition = new Vector3(0, 0, -0.5f);
     }
 
     void MoveToMain()

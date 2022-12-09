@@ -17,6 +17,7 @@ public class UIProfile : MonoBehaviour
     public TMP_Text txtGold;
     public TMP_Text txtLevel;
 
+
     void Start()
     {
         RefreshState();
