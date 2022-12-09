@@ -8,8 +8,10 @@ using TMPro;
 
 public class UIProfile : MonoBehaviour
 {
-    public GameObject hpBar;
+    public Slider hpBar;
     public Image imgFill;
+
+    public TMP_Text txtHp;
 
     public TMP_Text txtName;
     public TMP_Text txtGold;
@@ -17,11 +19,19 @@ public class UIProfile : MonoBehaviour
 
     void Start()
     {
-        
+        RefreshState();
     }
 
-    void Update()
+    public void RefreshState()
     {
-        
+        txtLevel.text = $"Lv.{GameManager.GetInstance().level}";
+        txtName.text = $"{GameManager.GetInstance().playerName}";
+        txtGold.text = $"{GameManager.GetInstance().gold}gold";
+
+        hpBar.maxValue = GameManager.GetInstance().totalHp;
+        hpBar.value = GameManager.GetInstance().curHp;
+
+        txtHp.text = $" {GameManager.GetInstance().curHp} / {GameManager.GetInstance().totalHp} ";
+
     }
 }

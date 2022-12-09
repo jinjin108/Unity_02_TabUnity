@@ -26,7 +26,31 @@ public class ObjectManager : MonoBehaviour
     {
         Object characterObj = Resources.Load("Sprite/Character");
         GameObject character = (GameObject)Instantiate(characterObj);
-        return character;
 
+        return character;
+    }
+
+    public GameObject CreateMonster()
+    {
+        Object monsterObj = Resources.Load("Sprite/Monster1");
+        GameObject monster = (GameObject)Instantiate(monsterObj);
+
+        return monster;
+    }
+
+    public ParticleSystem CreateHitEffect()
+    {
+        Object effectObj = Resources.Load("Effect/ricochet");
+        GameObject effect = (GameObject)Instantiate(effectObj);
+
+        return effect.GetComponent<ParticleSystem>();
+    }
+
+    public ParticleSystem dieEffect()
+    {
+        Object effectObj = Resources.Load("Effect/blooddie");
+        GameObject effect = (GameObject)Instantiate(effectObj);
+
+        return effect.GetComponent<ParticleSystem>();
     }
 }

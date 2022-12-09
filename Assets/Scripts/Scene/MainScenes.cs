@@ -6,11 +6,12 @@ public class MainScenes : MonoBehaviour
 {
     private void Start()
     {
-        ObjectManager.GetInstance().CreateCharacter();
+        GameObject go = ObjectManager.GetInstance().CreateCharacter();
+        go.transform.localScale = new Vector3(2, 2, 2);
+        go.transform.localPosition = new Vector3(0, 1.1f , 0);
+
 
         UIManager.GetInstance().SetEventSystem();
-
-        UIManager.GetInstance().OpenUI("Background");
 
         UIManager.GetInstance().OpenUI("UIProfile");
 

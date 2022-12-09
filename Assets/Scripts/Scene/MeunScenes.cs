@@ -6,6 +6,7 @@ public class MeunScenes : MonoBehaviour
 {
     void Start()
     {
+
         UIManager.GetInstance().SetEventSystem();
         UIManager.GetInstance().OpenUI("UIMainMEnu");
     }

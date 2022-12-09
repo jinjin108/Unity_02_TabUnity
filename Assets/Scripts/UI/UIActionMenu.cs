@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
+
 public class UIActionMenu : MonoBehaviour
 {
     public Button btnPractice;
@@ -11,11 +12,11 @@ public class UIActionMenu : MonoBehaviour
     public Button btnBattle;
     void Start()
     {
-        
+        btnBattle.onClick.AddListener(OnClickBattle);
     }
 
-    void Update()
+    void OnClickBattle()
     {
-        
+        ScenesManager.GetInstance().ChangeScene(Scene.Battle);
     }
 }
