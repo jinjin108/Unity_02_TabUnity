@@ -64,4 +64,24 @@ public class GameManager : MonoBehaviour
 
         // 위 함수는 curHp = Mathf.Clamp(curHp,0,100) 와 같다
     }
+
+    public void Heal()
+    {
+        if (gold >= 100)
+        {
+            if (curHp < totalHp)
+            {
+                gold -= 100;
+                curHp += 10;
+                ObjectManager.GetInstance().HealEffect();
+                Debug.Log("회복하였습니다.");
+
+            }
+        }
+        else
+            Debug.Log("돈이 부족합니다.");
+        GameObject ui = UIManager.GetInstance().GetUI("UIProfile");
+        if (ui != null)
+            ui.GetComponent<UIProfile>().RefreshState();
+    }
 }

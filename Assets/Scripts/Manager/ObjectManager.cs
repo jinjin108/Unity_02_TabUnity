@@ -30,6 +30,22 @@ public class ObjectManager : MonoBehaviour
         return character;
     }
 
+    public GameObject CreateCharacterPractice()
+    {
+        Object characterObj = Resources.Load("Sprite/CharacterPractice");
+        GameObject character = (GameObject)Instantiate(characterObj);
+
+        return character;
+    }
+
+    public GameObject Scarecrow()
+    {
+        Object characterObj = Resources.Load("Sprite/Scarecrow");
+        GameObject character = (GameObject)Instantiate(characterObj);
+
+        return character;
+    }
+
     public GameObject CreateMonster()
     {
         Object monsterObj = Resources.Load("Sprite/Monster1");
@@ -49,6 +65,14 @@ public class ObjectManager : MonoBehaviour
     public ParticleSystem dieEffect()
     {
         Object effectObj = Resources.Load("Effect/blooddie");
+        GameObject effect = (GameObject)Instantiate(effectObj);
+
+        return effect.GetComponent<ParticleSystem>();
+    }
+
+    public ParticleSystem HealEffect()
+    {
+        Object effectObj = Resources.Load("Effect/Health");
         GameObject effect = (GameObject)Instantiate(effectObj);
 
         return effect.GetComponent<ParticleSystem>();

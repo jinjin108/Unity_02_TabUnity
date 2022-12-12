@@ -7,7 +7,8 @@ public enum Scene
 {
    Meun,
    Main,
-   Battle
+   Battle,
+    Practice
 }
 
 public class ScenesManager : MonoBehaviour

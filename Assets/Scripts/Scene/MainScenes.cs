@@ -8,9 +8,9 @@ public class MainScenes : MonoBehaviour
     {
         GameObject go = ObjectManager.GetInstance().CreateCharacter();
         go.transform.localScale = new Vector3(2, 2, 2);
-        go.transform.localPosition = new Vector3(0, 1.1f , 0);
+        go.transform.localPosition = new Vector3(0, 0.5f , 0);
 
-
+        
         UIManager.GetInstance().SetEventSystem();
 
         UIManager.GetInstance().OpenUI("UIProfile");
