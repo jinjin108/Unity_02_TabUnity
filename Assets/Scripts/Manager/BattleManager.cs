@@ -30,6 +30,8 @@ public class BattleManager : MonoBehaviour
     {
         monsterData = monster;
 
+        EffectManager.GetInstance().InitEffectPool(10);
+
         monsterObj = ObjectManager.GetInstance().CreateMonster();
         monsterObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
         monsterObj.transform.localPosition = new Vector3(0, 0.6f, 0);
@@ -61,7 +63,7 @@ public class BattleManager : MonoBehaviour
 
     void Victory()
     {
-        Debug.Log("게임에서 승리하였습니다");
+        Debug.Log("축하해~ 용사를 동료로 만들었어!");
         StopCoroutine("BattleProgress");
         UIManager.GetInstance().CloseUI("UITab");
         monsterObj.gameObject.SetActive(false);
@@ -90,11 +92,7 @@ public class BattleManager : MonoBehaviour
         float randX = Random.Range(-1, 2);
         float randy = Random.Range(0, 1.5f);
 
-        var particle = ObjectManager.GetInstance().CreateHitEffect();
-        particle.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-        particle.transform.localPosition = new Vector3(randX, randy, -0.5f);
-
-
+        EffectManager.GetInstance().UseEffect();
 
         monsterData.hp--;
 
@@ -106,7 +104,7 @@ public class BattleManager : MonoBehaviour
     {
         ParticleSystem particle = ObjectManager.GetInstance().dieEffect();
         particle.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        particle.transform.localPosition = new Vector3(0, 0, -0.5f);
+        particle.transform.localPosition = new Vector3(-0.5f, 0.5f, 0);
     }
 
     void MoveToMain()

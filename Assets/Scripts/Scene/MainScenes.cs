@@ -6,6 +6,8 @@ public class MainScenes : MonoBehaviour
 {
     private void Start()
     {
+        GameManager.GetInstance().LoadData();
+
         GameObject go = ObjectManager.GetInstance().CreateCharacter();
         go.transform.localScale = new Vector3(2, 2, 2);
         go.transform.localPosition = new Vector3(0, 0.5f , 0);
@@ -16,7 +18,6 @@ public class MainScenes : MonoBehaviour
         UIManager.GetInstance().OpenUI("UIProfile");
 
         UIManager.GetInstance().OpenUI("UIActionMenu");
-
 
 
     }

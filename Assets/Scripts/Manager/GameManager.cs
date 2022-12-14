@@ -31,9 +31,30 @@ public class GameManager : MonoBehaviour
     public int totalHp = 100;
     public int curHp = 100;
 
+    public void LoadData()
+    {
+
+        playerName = PlayerPrefs.GetString("playerName" , "hise");
+
+        level = PlayerPrefs.GetInt("level", 1);
+        gold = PlayerPrefs.GetInt("gold", 500);
+        totalHp = PlayerPrefs.GetInt("totalHp", 100);
+        curHp = PlayerPrefs.GetInt("curHp", 100);
+    }
+    public void SaveData()
+    {
+        PlayerPrefs.SetString("playerName", playerName);
+        PlayerPrefs.SetInt("level", level);
+        PlayerPrefs.SetInt("gold", gold);
+        PlayerPrefs.SetInt("totalHp", totalHp);
+        PlayerPrefs.SetInt("curHp", curHp);
+    }
+
+
     public void AddGold(int gold)
     {
         this.gold += gold;
+        SaveData();
     }
 
     public bool SpenGold(int gold)
@@ -41,6 +62,7 @@ public class GameManager : MonoBehaviour
         if (this.gold >= gold)
         {
             this.gold -= gold;
+            SaveData();
             return true;
         }
 
@@ -50,14 +72,16 @@ public class GameManager : MonoBehaviour
     public void IncreaseTotalHP(int addHp)
     {
         totalHp += addHp;
+        SaveData();
     }
 
     public void SetCurrentHP(int hp)
     {
         curHp += hp;
-
+        SaveData();
         if (curHp > totalHp)
             curHp = totalHp;
+
 
         if (curHp < 0)
             curHp = 0;

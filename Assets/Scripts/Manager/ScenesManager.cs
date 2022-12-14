@@ -35,10 +35,13 @@ public class ScenesManager : MonoBehaviour
     public Scene currentScene;
     public void ChangeScene(Scene scene)
     {
+
         UIManager.GetInstance().ClearList();
+        EffectManager.GetInstance().ReleasePool();
 
         currentScene = scene;
         SceneManager.LoadScene(scene.ToString());
     }
+
     #endregion
 }

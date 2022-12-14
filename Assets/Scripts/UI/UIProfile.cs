@@ -25,6 +25,7 @@ public class UIProfile : MonoBehaviour
 
     public void RefreshState()
     {
+        GameManager.Gnstance().SaveData();etI
         txtLevel.text = $"Lv.{GameManager.GetInstance().level}";
         txtName.text = $"{GameManager.GetInstance().playerName}";
         txtGold.text = $"{GameManager.GetInstance().gold}gold";
