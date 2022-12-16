@@ -24,6 +24,9 @@ public class PracticeScene : MonoBehaviour
         goo.transform.localScale = new Vector3(0.6f, 0.6f, 0.6f);
         goo.transform.localPosition = new Vector3(-0.5f, 0.3f, 0);
 
+        GameManager.GetInstance().SpenGold(500);
+        GameManager.GetInstance().AddLevel(1);
+
     }
     public void PtEnd()
     {

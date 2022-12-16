@@ -22,46 +22,56 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public string playerName = "hise";
+    public Player playerData;
 
-    public int level = 1;
+    public Player[] playersDatas = new Player[]
+    {
+        new Player("Character","goldSkull",1,0,100,100,1),
+        new Player("Character2","silverSkull",1,500,120,120,1)
+    };
+    
 
-    public int gold = 500;
 
-    public int totalHp = 100;
-    public int curHp = 100;
+
+    public int characterIdx = 0;  // 0 = gold 1 = silver
+
+    //캐릭터 1
+   // public int goldSkullhp = 100;
+    public string goldSkullimg = "Character";
+
+    //public int silverSkullhp = 100;
+    public string silverSkullimg = "Character2";
 
     public void LoadData()
     {
+        playerData.playerName = PlayerPrefs.GetString("playerName" , playersDatas[characterIdx].playerName);
 
-        playerName = PlayerPrefs.GetString("playerName" , "hise");
-
-        level = PlayerPrefs.GetInt("level", 1);
-        gold = PlayerPrefs.GetInt("gold", 500);
-        totalHp = PlayerPrefs.GetInt("totalHp", 100);
-        curHp = PlayerPrefs.GetInt("curHp", 100);
+        playerData.level = PlayerPrefs.GetInt("level", playersDatas[characterIdx].level);
+        playerData.gold = PlayerPrefs.GetInt("gold", playersDatas[characterIdx].gold);
+        playerData.totalHp = PlayerPrefs.GetInt("totalHp", playersDatas[characterIdx].totalHp);
+        playerData.curHp = PlayerPrefs.GetInt("curHp", playersDatas[characterIdx].curHp);
     }
     public void SaveData()
     {
-        PlayerPrefs.SetString("playerName", playerName);
-        PlayerPrefs.SetInt("level", level);
-        PlayerPrefs.SetInt("gold", gold);
-        PlayerPrefs.SetInt("totalHp", totalHp);
-        PlayerPrefs.SetInt("curHp", curHp);
+        PlayerPrefs.SetString("playerName", playersDatas[characterIdx].playerName);
+        PlayerPrefs.SetInt("level", playersDatas[characterIdx].level);
+        PlayerPrefs.SetInt("gold", playersDatas[characterIdx].gold);
+        PlayerPrefs.SetInt("totalHp", playersDatas[characterIdx].totalHp);
+        PlayerPrefs.SetInt("curHp", playersDatas[characterIdx].curHp);
     }
 
 
     public void AddGold(int gold)
     {
-        this.gold += gold;
+        playersDatas[characterIdx].gold += gold;
         SaveData();
     }
 
     public bool SpenGold(int gold)
     {
-        if (this.gold >= gold)
+        if (playersDatas[characterIdx].gold >= gold)
         {
-            this.gold -= gold;
+            playersDatas[characterIdx].gold -= gold;
             SaveData();
             return true;
         }
@@ -69,34 +79,40 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public void AddLevel(int level)
+    {
+        playersDatas[characterIdx].level += level;
+        SaveData();
+    }
+
     public void IncreaseTotalHP(int addHp)
     {
-        totalHp += addHp;
+        playersDatas[characterIdx].totalHp += addHp;
         SaveData();
     }
 
     public void SetCurrentHP(int hp)
     {
-        curHp += hp;
+        playersDatas[characterIdx].curHp += hp;
         SaveData();
-        if (curHp > totalHp)
-            curHp = totalHp;
+        if (playersDatas[characterIdx].curHp > playersDatas[characterIdx].totalHp)
+            playersDatas[characterIdx].curHp = playersDatas[characterIdx].totalHp;
 
 
-        if (curHp < 0)
-            curHp = 0;
+        if (playersDatas[characterIdx].curHp < 0)
+            playersDatas[characterIdx].curHp = 0;
 
         // 위 함수는 curHp = Mathf.Clamp(curHp,0,100) 와 같다
     }
 
     public void Heal()
     {
-        if (gold >= 100)
+        if (playersDatas[characterIdx].gold >= 100)
         {
-            if (curHp < totalHp)
+            if (playersDatas[characterIdx].curHp < playersDatas[characterIdx].totalHp)
             {
-                gold -= 100;
-                curHp += 10;
+                playersDatas[characterIdx].gold -= 100;
+                playersDatas[characterIdx].curHp += 10;
                 ObjectManager.GetInstance().HealEffect();
                 Debug.Log("회복하였습니다.");
 

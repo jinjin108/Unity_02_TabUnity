@@ -22,13 +22,15 @@ public class ObjectManager : MonoBehaviour
     }
     #endregion
 
-    public GameObject CreateCharacter()
+    public GameObject CreateCharacter(string characterName)
     {
-        Object characterObj = Resources.Load("Sprite/Character");
+        Object characterObj = Resources.Load("Sprite/" + characterName);
         GameObject character = (GameObject)Instantiate(characterObj);
 
         return character;
     }
+
+    
 
     public GameObject CreateCharacterPractice()
     {
@@ -46,9 +48,9 @@ public class ObjectManager : MonoBehaviour
         return character;
     }
 
-    public GameObject CreateMonster()
+    public GameObject CreateMonster(string monsterName)
     {
-        Object monsterObj = Resources.Load("Sprite/Monster1");
+        Object monsterObj = Resources.Load("Sprite/" + monsterName);
         GameObject monster = (GameObject)Instantiate(monsterObj);
 
         return monster;

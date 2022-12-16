@@ -23,18 +23,28 @@ public class BattleManager : MonoBehaviour
     #endregion
     public Monster1 monsterData;
 
-    GameObject uiTab;
+    public Monster1[] monsterDatas = new Monster1[]
+    {
+        new Monster1("Monster1",10,30,2.5f,300,1),
+        new Monster1("Monster2",15,60,2f,1000,2),
+        new Monster1("Monster3",40,25,3f,1000,3)
+    };
 
-    GameObject monsterObj;
+    public Monster1 GetRandomMonster()
+    {
+        int rand = Random.Range(0, monsterDatas.Length);
+
+        return monsterDatas[rand];
+    }
+
+    public GameObject monsterObj;
     public void BattleStart(Monster1 monster)
     {
         monsterData = monster;
 
         EffectManager.GetInstance().InitEffectPool(10);
 
-        monsterObj = ObjectManager.GetInstance().CreateMonster();
-        monsterObj.transform.localScale = new Vector3(2.5f, 2.5f, 2.5f);
-        monsterObj.transform.localPosition = new Vector3(0, 0.6f, 0);
+        
 
         UIManager.GetInstance().OpenUI("UITab");
 
@@ -42,7 +52,7 @@ public class BattleManager : MonoBehaviour
     }
     IEnumerator BattleProgress()
     {
-        while (GameManager.GetInstance().curHp > 0)
+        while (GameManager.GetInstance().playersDatas[GameManager.GetInstance().characterIdx].curHp > 0)
         {
             yield return new WaitForSeconds(monsterData.delay);
 
@@ -54,7 +64,7 @@ public class BattleManager : MonoBehaviour
                 ui.GetComponent<UIProfile>().RefreshState();
 
 
-            Debug.Log($"용사에게 공격 당하였습니다. - 데미지 : {damage}   남은체력 : {GameManager.GetInstance().curHp}");
+            Debug.Log($"용사에게 공격 당하였습니다. - 데미지 : {damage}   남은체력 : {GameManager.GetInstance().playersDatas[GameManager.GetInstance().characterIdx].curHp}");
         }
 
         Lose();
@@ -70,6 +80,7 @@ public class BattleManager : MonoBehaviour
         DieMonster();
 
         GameManager.GetInstance().AddGold(monsterData.gold);
+        GameManager.GetInstance().AddLevel(monsterData.level);
 
         Invoke("MoveToMain", 2.5f);
     }
@@ -94,7 +105,9 @@ public class BattleManager : MonoBehaviour
 
         EffectManager.GetInstance().UseEffect();
 
-        monsterData.hp--;
+        monsterData.hp -= GameManager.GetInstance().playersDatas[GameManager.GetInstance().characterIdx].atk;
+
+        Debug.Log($"MonsterName : {monsterData.monsterName} Hp : {monsterData.hp}");
 
         if (monsterData.hp <= 0)
             Victory();

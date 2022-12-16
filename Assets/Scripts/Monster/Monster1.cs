@@ -2,14 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster1
+//class 참조
+//struct 값타입
+public struct Monster1
 {
-    public string monsterName = "";
+    public string monsterName;
 
-    public int atk = 10;
-    public int hp = 30;
+    public int atk;
+    public int hp;
 
-    public float delay = 2.5f;
+    public float delay;
 
-    public int gold = 300;
+    public int gold;
+
+    public int level;
+    public Monster1(string monsterName, int atk, int hp, float delay, int gold,int level)
+    {
+        this.monsterName = monsterName;
+        this.atk = atk;
+        this.hp = hp;
+        this.delay = delay;
+        this.gold = gold;
+        this.level = level;
+    }
+
+
 }
