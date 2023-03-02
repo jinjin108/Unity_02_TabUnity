@@ -2,11 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//class 참조
-//struct 값타입
-public class Monster1 : MonsterBase
+public class Monster2: MonsterBase
 {
-    public Monster1(string monsterName, int atk, int hp, float delay, int gold,int level)
+    public Monster2(string monsterName, int atk, int hp, float delay, int gold, int level)
     {
         this.monsterName = monsterName;
         this.atk = atk;
@@ -18,7 +16,12 @@ public class Monster1 : MonsterBase
 
     public override void Attack()
     {
-        base.Attack();
+        float criticaRate = Random.Range(0,100.0f);
+
+        int damge = atk;
+        if (criticaRate < 10)
+            damge *= 2;
+        
         GameManager.GetInstance().SetCurrentHP(-atk);
     }
 }
