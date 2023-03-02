@@ -8,29 +8,33 @@ public class BattleManager : MonoBehaviour
 
     private static BattleManager instance = null;
 
-    public static BattleManager GetInstance()
+    public static BattleManager Instance
     {
-        if (instance == null)
+        get
         {
-            GameObject go = new GameObject("@BattleManager");
-            instance = go.AddComponent<BattleManager>();
+            if (instance == null)
+            {
+                GameObject go = new GameObject("@BattleManager");
+                instance = go.AddComponent<BattleManager>();
 
-            DontDestroyOnLoad(go);
+                DontDestroyOnLoad(go);
+            }
+            return instance;
         }
-        return instance;
-
+        
     }
     #endregion
-    public Monster1 monsterData;
+    public MonsterBase monsterData;
 
-    public Monster1[] monsterDatas = new Monster1[]
+
+    public MonsterBase[] monsterDatas = new MonsterBase[]
     {
-        new Monster1("Monster1",10,30,2.5f,300,1),
-        new Monster1("Monster2",15,60,2f,1000,2),
-        new Monster1("Monster3",40,25,3f,1000,3)
+        new Monster1("Monster1",10,20,2.5f,300,1),
+        new Monster2("Monster2",15,40,2f,1000,2),
+        new Monster3("Monster3",20,25,3f,1000,3),
     };
 
-    public Monster1 GetRandomMonster()
+    public MonsterBase GetRandomMonster()
     {
         int rand = Random.Range(0, monsterDatas.Length);
 
@@ -38,7 +42,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public GameObject monsterObj;
-    public void BattleStart(Monster1 monster)
+    public void BattleStart(MonsterBase monster)
     {
         monsterData = monster;
 
@@ -56,15 +60,14 @@ public class BattleManager : MonoBehaviour
         {
             yield return new WaitForSeconds(monsterData.delay);
 
-            int damage = monsterData.atk;
-            GameManager.GetInstance().SetCurrentHP(-damage);
+            monsterData.Attack();
 
             GameObject ui = UIManager.GetInstance().GetUI("UIProfile");
             if (ui != null)
                 ui.GetComponent<UIProfile>().RefreshState();
 
 
-            Debug.Log($"용사에게 공격 당하였습니다. - 데미지 : {damage}   남은체력 : {GameManager.GetInstance().playersDatas[GameManager.GetInstance().characterIdx].curHp}");
+            Debug.Log($"용사에게 공격 당하였습니다. - 데미지 : {monsterData.atk}   남은체력 : {GameManager.GetInstance().playersDatas[GameManager.GetInstance().characterIdx].curHp}");
         }
 
         Lose();
@@ -105,9 +108,9 @@ public class BattleManager : MonoBehaviour
 
         EffectManager.GetInstance().UseEffect();
 
-        monsterData.hp -= GameManager.GetInstance().playersDatas[GameManager.GetInstance().characterIdx].atk;
+        monsterData.hp --;
 
-        Debug.Log($"MonsterName : {monsterData.monsterName} Hp : {monsterData.hp}");
+        Debug.Log($"MonsterName : {monsterData.GetMonsterName()} Hp : {monsterData.hp}");
 
         if (monsterData.hp <= 0)
             Victory();

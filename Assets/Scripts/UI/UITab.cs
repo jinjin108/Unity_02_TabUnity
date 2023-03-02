@@ -18,6 +18,6 @@ public class UITab : MonoBehaviour
     void OnTab()
     {
         Debug.Log("용사를 공격해!");
-        BattleManager.GetInstance().AttackMonster();
+        BattleManager.Instance.AttackMonster();
     }
 }
